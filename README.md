@@ -19,7 +19,10 @@ Before you begin, ensure that you have the following installed on your machine:
 git clone https://github.com/slsuyel/Mongoose-Express-CRUD-Mastery
 ```
 
+```
 npm install
+```
+
 ```
 cd Mongoose-Express-CRUD-Mastery
 
@@ -45,4 +48,7 @@ The API exposes the following endpoints:
 - `POST /api/resource`: Create a new resource.
 - `PUT /api/resource/:id`: Update a resource by ID.
 - `DELETE /api/resource/:id`: Delete a resource by ID.
+
+```
+
 ```
