@@ -1,9 +1,10 @@
 import { Document, Query, Schema, model } from 'mongoose'
-import { IUser } from '../interfaces/user.interface'
+import { TUser } from '../interfaces/user.interface'
 import bcrypt from 'bcrypt'
 import config from '../config'
+import { UserModel } from './../interfaces/user.interface'
 
-const userSchema: Schema<IUser> = new Schema({
+const userSchema: Schema<TUser> = new Schema<TUser>({
   userId: {
     type: Number,
     required: [true, 'User ID is required'],
@@ -39,11 +40,21 @@ const userSchema: Schema<IUser> = new Schema({
     city: { type: String, required: [true, 'City is required'] },
     country: { type: String, required: [true, 'Country is required'] },
   },
+  orders: [
+    {
+      productName: {
+        type: String,
+        required: [true, 'Product name is required'],
+      },
+      price: { type: Number, required: [true, 'Price is required'] },
+      quantity: { type: Number, required: [true, 'Quantity is required'] },
+    },
+  ],
 })
 
 // Pre Hook for Query Middleware
 
-userSchema.pre(/^find/, function (this: Query<IUser, Document>, next) {
+userSchema.pre(/^find/, function (this: Query<TUser, Document>, next) {
   this.find({ isActive: { $eq: true } })
   next()
 })
@@ -66,6 +77,11 @@ userSchema.set('toJSON', {
   },
 })
 
-const User = model<IUser>('User', userSchema)
+userSchema.statics.isUserExists = async function (userId: number) {
+  const user = await User.findOne({ userId })
+  return user
+}
+
+const User = model<TUser, UserModel>('User', userSchema)
 
 export default User

@@ -6,8 +6,7 @@ const app: Application = express()
 
 app.use(express.json())
 app.use(cors())
-/* /users */
-app.use('/api/v1/', userRoutes)
+app.use('/api/users/', userRoutes)
 
 app.get('/', (req: Request, res: Response) => {
   res.status(200).json({
