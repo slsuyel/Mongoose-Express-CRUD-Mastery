@@ -40,16 +40,25 @@ const userSchema: Schema<TUser> = new Schema<TUser>({
     city: { type: String, required: [true, 'City is required'] },
     country: { type: String, required: [true, 'Country is required'] },
   },
-  orders: [
-    {
-      productName: {
-        type: String,
-        required: [true, 'Product name is required'],
+  orders: {
+    type: [
+      {
+        productName: {
+          type: String,
+          required: [true, 'Product name is required'],
+        },
+        price: {
+          type: Number,
+          required: [true, 'Price is required'],
+        },
+        quantity: {
+          type: Number,
+          required: [true, 'Quantity is required'],
+        },
       },
-      price: { type: Number, required: [true, 'Price is required'] },
-      quantity: { type: Number, required: [true, 'Quantity is required'] },
-    },
-  ],
+    ],
+    required: false,
+  },
 })
 
 // Pre Hook for Query Middleware

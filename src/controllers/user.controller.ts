@@ -4,11 +4,14 @@
 import { Request, Response } from 'express'
 import { userServices } from '../services/user.service'
 import User from '../models/user.model'
+import { userValidationSchema } from '../validations/user.validation'
+import { TUser } from '../interfaces/user.interface'
 
 const createUser = async (req: Request, res: Response) => {
   try {
     const userData = req.body
-    const result = await userServices.createUser(userData)
+    const validatedUser = userValidationSchema.parse(userData)
+    const result = await userServices.createUser(validatedUser as TUser)
     res.status(201).json({
       status: 'success',
       message: 'User created successfully',
@@ -74,6 +77,7 @@ const updateUser = async (req: Request, res: Response) => {
   try {
     const userId = Number(req.params.userId)
     const userData = req.body
+
     const existingUser = await User.isUserExists(userId)
     if (!existingUser) {
       return res.status(404).json({
@@ -161,20 +165,32 @@ const createNewOrder = async (req: Request, res: Response) => {
     })
   }
 }
-
 const getUserOrders = async (req: Request, res: Response) => {
   try {
-    const { userId } = req.params
-    const result = await userServices.getUserOrdersFormDB(Number(userId))
-    res.status(200).json({
-      success: true,
-      message: 'All orders retrieved successfully',
-      data: result,
-    })
+    const userId = Number(req.params.userId)
+    const existingUser = await User.isUserExists(userId)
+
+    if (existingUser) {
+      const result = await userServices.getUserOrdersFormDB(Number(userId))
+      res.status(200).json({
+        success: true,
+        message: 'All orders retrieved successfully',
+        data: result,
+      })
+    } else {
+      res.status(404).json({
+        success: false,
+        message: 'User not found',
+        error: {
+          code: 404,
+          description: 'User not found!',
+        },
+      })
+    }
   } catch (err: any) {
     res.status(500).json({
       success: false,
-      message: err.message || 'something went wrong',
+      message: err.message || 'Something went wrong',
       error: err,
     })
   }
@@ -192,8 +208,11 @@ const calculateTotal = async (req: Request, res: Response) => {
   } catch (err: any) {
     res.status(500).json({
       success: false,
-      message: err.message || 'something went wrong',
-      error: err,
+      message: 'User not found',
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
     })
   }
 }

@@ -7,8 +7,6 @@ const createUser = async (userData: TUser): Promise<TUser> => {
   return result
 }
 
-/*     const users = await User.find({}, 'username fullName age email address');
- */
 const getAllUsers = async (): Promise<TUser[]> => {
   const result = await User.aggregate([
     {
@@ -58,18 +56,10 @@ const createNewOrderToDB = async (userId: number, order: TOrder) => {
 }
 
 const getUserOrdersFormDB = async (userId: number) => {
-  if (await User.isUserExists(userId)) {
-    const result = await User.findOne({ userId }, 'orders -_id')
-    return result
-  } else {
-    throw {
-      error: {
-        code: 404,
-        description: 'User nor found!',
-      },
-    }
-  }
+  const result = await User.findOne({ userId }, 'orders -_id')
+  return result
 }
+
 const calculateTotalPrice = async (userId: number) => {
   if (await User.isUserExists(userId)) {
     const result = await User.aggregate([

@@ -29,7 +29,3 @@ export interface TUser {
 export interface UserModel extends Model<TUser> {
   isUserExists(userId: number): Promise<TUser | null>
 }
-
-// export interface UserModel extends Model<TUser> {
-//   isUserExists(userId: number): Promise<TUser | null>
-// }
