@@ -11,7 +11,7 @@ app.use('/api/users/', userRoutes)
 app.get('/', (req: Request, res: Response) => {
   res.status(200).json({
     status: 'success',
-    message: 'Welcome to Apollo-Level2-Web-Dev/L2-B2-assignment-2',
+    message: 'Welcome to assignment-2',
   })
 })
 
