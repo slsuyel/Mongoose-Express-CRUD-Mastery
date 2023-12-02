@@ -39,16 +39,6 @@ cd Mongoose-Express-CRUD-Mastery
 - **npm run prettier:fix**: Format code using Prettier.
 - **npm test**: Run tests (placeholder).
 
-## API Endpoints
-
-The API exposes the following endpoints:
-
-- `GET /api/resource`: Retrieve all resources.
-- `GET /api/resource/:id`: Retrieve a specific resource by ID.
-- `POST /api/resource`: Create a new resource.
-- `PUT /api/resource/:id`: Update a resource by ID.
-- `DELETE /api/resource/:id`: Delete a resource by ID.
-
 ```
 
 ```
